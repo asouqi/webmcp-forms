@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite';
-import dts from 'vite-plugin-dts';
-import { resolve } from 'path';
+import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
+import { resolve } from 'path'
 
 export default defineConfig({
     build: {
@@ -14,9 +14,6 @@ export default defineConfig({
         },
         rollupOptions: {
             external: ['react', 'webmcp-adapter'],
-            output: {
-                preserveModules: false,
-            },
         },
     },
     plugins: [
@@ -25,4 +22,4 @@ export default defineConfig({
             outDir: 'dist',
         }),
     ],
-});
+})
