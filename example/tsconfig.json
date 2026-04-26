@@ -4,7 +4,13 @@
     "outDir": "dist",
     "rootDir": "src",
     "jsx": "react-jsx",
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "webmcp-adapter": ["../../webmcp-adapter/src/index.ts"],
+      "webmcp-forms": ["../src/index.ts"],
+      "webmcp-forms/react": ["../src/react/index.ts"]
+    }
   },
   "include": ["src/**/*"],
   "references": [

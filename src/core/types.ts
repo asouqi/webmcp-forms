@@ -1,7 +1,7 @@
 import { ToolDefinition } from "webmcp-adapter"
 
 export interface FormField {
-    type: 'string' | 'email' | 'number'
+    type: 'string' | 'number' | 'boolean' | 'array' | 'object'
     label?: string
     options?: string[]
     min?: number

@@ -22,5 +22,5 @@ export function useFormTools(options: UseFormToolsOptions) {
         return () => {
             unregisterAll()
         }
-    }, [formId])
+    }, [formId, fields])
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useFormTools } from 'webmcp-forms/react';
+import {FormField} from "webmcp-forms";
 
 const Container = styled.div`
   max-width: 600px;
@@ -108,25 +109,25 @@ const ExampleLabel = styled.span`
 `;
 
 // Form fields configuration
-const fields = {
+const fields: Record<string, FormField> = {
     // String fields
-    name: { type: 'string' as const, label: 'Full Name' },
-    email: { type: 'string' as const, label: 'Email' },
+    name: { type: 'string', label: 'Full Name' },
+    email: { type: 'string', label: 'Email' },
 
     // Number field
-    age: { type: 'number' as const, label: 'Age' },
+    age: { type: 'number', label: 'Age' },
 
     // Boolean field
-    subscribe: { type: 'boolean' as const, label: 'Subscribe to newsletter' },
+    subscribe: { type: 'boolean', label: 'Subscribe to newsletter' },
 
     // Select field
-    country: { type: 'string' as const, label: 'Country' },
+    country: { type: 'string', label: 'Country' },
 
     // Array field (multi-select interests)
-    interests: { type: 'array' as const, label: 'Interests' },
+    interests: { type: 'array', label: 'Interests' },
 
     // Nested object field (address)
-    address: { type: 'object' as const, label: 'Address' },
+    address: { type: 'object', label: 'Address' },
 };
 
 // Initial form state
