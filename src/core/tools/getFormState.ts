@@ -12,7 +12,7 @@ export function createGetFormStateTool(config: FormConfig, state: FormState) {
             required: []
         },
         execute: () => {
-            const values = state.getValue
+            const values = state.getValue()
             return {
                 content: [{
                     type: 'text',
