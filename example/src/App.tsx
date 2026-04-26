@@ -151,6 +151,7 @@ export default function App() {
     useFormTools({
         formId: 'registration',
         fields,
+        values,
         onChange: (field, value) => {
             setValues((prev) => ({ ...prev, [field]: value }));
         },

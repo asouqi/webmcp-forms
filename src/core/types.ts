@@ -22,6 +22,7 @@ export interface FormConfig {
 
 export interface FormState {
     setFieldValue: (field: string, value: unknown) => void
+    getValue: () => Record<string, unknown>
 }
 
 export interface FormToolsResult {
