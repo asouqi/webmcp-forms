@@ -6,13 +6,12 @@ export interface FormField {
     options?: string[]
     min?: number
     max?: number
-    // TODO::
-    // step?: number
-    // minLength?: number
-    // maxLength?: number
-    // pattern?: string
-    // required?: boolean
-    // placeholder?: string
+    step?: number
+    minLength?: number
+    maxLength?: number
+    pattern?: string
+    required?: boolean
+    placeholder?: string
 }
 
 export interface FormConfig {
@@ -23,6 +22,8 @@ export interface FormConfig {
 export interface FormState {
     setFieldValue: (field: string, value: unknown) => void
     getValue: () => Record<string, unknown>
+    submit?: () => void | Promise<void>
+    reset?: () => void
 }
 
 export interface FormToolsResult {

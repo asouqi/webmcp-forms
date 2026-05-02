@@ -1,2 +1,5 @@
 export { createFillFieldTool } from "./fillField"
 export { createGetFormStateTool } from "./getFormState"
+export { createGetFieldValueTool } from "./getFieldValue"
+export { createSubmitFormTool } from "./submitForm"
+export { createResetFormTool } from "./resetForm"
