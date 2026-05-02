@@ -1,5 +1,5 @@
 import {FormConfig, FormState} from "../types"
-import {defineTool} from "../../../../webmcp-adapter"
+import { defineTool } from "webmcp-adapter"
 
 export function createSubmitFormTool(config: FormConfig, state: FormState) {
     return defineTool({
@@ -11,7 +11,7 @@ export function createSubmitFormTool(config: FormConfig, state: FormState) {
             required: []
         },
         execute: async () => {
-            const values = state.getValue
+            const values = state.getValue()
 
             if (state.submit) {
                 try {

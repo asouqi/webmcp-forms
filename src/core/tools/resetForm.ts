@@ -1,5 +1,5 @@
 import {FormConfig, FormState} from "../types";
-import {defineTool} from "../../../../webmcp-adapter";
+import { defineTool } from "webmcp-adapter";
 
 const getDefaultValue = (config: FormConfig) => {
     const defaultValues: Record<string, unknown> = {}

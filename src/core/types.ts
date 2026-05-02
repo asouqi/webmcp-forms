@@ -9,6 +9,8 @@ export interface FormField {
     step?: number
     minLength?: number
     maxLength?: number
+    minItems?: number
+    maxItems?: number
     pattern?: string
     required?: boolean
     placeholder?: string
