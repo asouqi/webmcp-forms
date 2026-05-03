@@ -108,26 +108,91 @@ const ExampleLabel = styled.span`
   margin-bottom: 4px;
 `;
 
-// Form fields configuration
-const fields: Record<string, FormField> = {
-    // String fields
-    name: { type: 'string', label: 'Full Name' },
-    email: { type: 'string', label: 'Email' },
+const ValidationNote = styled.div`
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #856404;
+`;
 
-    // Number field
-    age: { type: 'number', label: 'Age' },
+const ValidationRule = styled.li`
+  margin-bottom: 4px;
+  font-size: 12px;
+`;
 
-    // Boolean field
-    subscribe: { type: 'boolean', label: 'Subscribe to newsletter' },
+// Form fields configuration with validation
+const fields: Record<string, any> = {
+    // String with minLength, maxLength, and required
+    name: {
+        type: 'string',
+        label: 'Full Name',
+        required: true,
+        minLength: 2,
+        maxLength: 50
+    },
 
-    // Select field
-    country: { type: 'string', label: 'Country' },
+    // String with pattern validation (email regex)
+    email: {
+        type: 'string',
+        label: 'Email',
+        required: true,
+        pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
+    },
 
-    // Array field (multi-select interests)
-    interests: { type: 'array', label: 'Interests' },
+    // Number with min and max validation
+    age: {
+        type: 'number',
+        label: 'Age',
+        required: true,
+        min: 18,
+        max: 120
+    },
 
-    // Nested object field (address)
-    address: { type: 'object', label: 'Address' },
+    // Boolean field (no validation needed)
+    subscribe: {
+        type: 'boolean',
+        label: 'Subscribe to newsletter'
+    },
+
+    // String with enum options (select)
+    country: {
+        type: 'string',
+        label: 'Country',
+        required: true,
+        options: ['US', 'UK', 'CA', 'DE', 'FR']
+    },
+
+    // Array with minItems and maxItems validation
+    interests: {
+        type: 'array',
+        label: 'Interests',
+        minItems: 1,
+        maxItems: 5
+    },
+
+    // String with just maxLength (optional field)
+    bio: {
+        type: 'string',
+        label: 'Bio',
+        maxLength: 200,
+        placeholder: 'Tell us about yourself'
+    },
+
+    // Number with just min validation
+    salary: {
+        type: 'number',
+        label: 'Expected Salary',
+        min: 0
+    },
+
+    // Nested object field (no specific validation)
+    address: {
+        type: 'object',
+        label: 'Address'
+    },
 };
 
 // Initial form state
@@ -138,6 +203,8 @@ const initialState = {
     subscribe: false,
     country: '',
     interests: [] as string[],
+    bio: '',
+    salary: 0,
     address: {
         street: '',
         city: '',
@@ -155,44 +222,83 @@ export default function App() {
         onChange: (field, value) => {
             setValues((prev) => ({ ...prev, [field]: value }));
         },
+        onSubmit: async () => {
+            console.log('Form submitted with values:', values);
+            alert('Form submitted successfully!\n\n' + JSON.stringify(values, null, 2));
+        },
+        onReset: () => {
+            setValues(initialState);
+            console.log('Form reset to initial state');
+        }
     });
 
-    const interestOptions = ['Technology', 'Sports', 'Music', 'Travel', 'Food'];
+    const interestOptions = ['Technology', 'Sports', 'Music', 'Travel', 'Food', 'Gaming', 'Reading'];
     const countryOptions = ['', 'US', 'UK', 'CA', 'DE', 'FR'];
 
     return (
         <Container>
-            <Title>Registration Form</Title>
+            <Title>Registration Form with Validation</Title>
 
-            {/* String Fields */}
+            <ValidationNote>
+                <strong>🛡️ Validation Features Demo</strong>
+                <ul style={{ marginTop: '8px', marginBottom: '0', paddingLeft: '20px' }}>
+                    <ValidationRule>✅ Required fields (name, email, age, country)</ValidationRule>
+                    <ValidationRule>✅ String length constraints (name: 2-50 chars, bio: max 200)</ValidationRule>
+                    <ValidationRule>✅ Pattern matching (email regex validation)</ValidationRule>
+                    <ValidationRule>✅ Number ranges (age: 18-120, salary: min 0)</ValidationRule>
+                    <ValidationRule>✅ Enum options (country must be one of the list)</ValidationRule>
+                    <ValidationRule>✅ Array constraints (interests: 1-5 items)</ValidationRule>
+                </ul>
+            </ValidationNote>
+
+            {/* String Fields with validation */}
             <Section>
-                <SectionTitle>📝 Basic Info (string)</SectionTitle>
+                <SectionTitle>📝 Text Fields (with validation)</SectionTitle>
                 <FormGroup>
-                    <Label>Full Name</Label>
+                    <Label>Full Name * (required, 2-50 chars)</Label>
                     <Input
                         value={values.name ?? ''}
                         onChange={(e) => setValues((prev) => ({ ...prev, name: e.target.value }))}
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label>Email</Label>
+                    <Label>Email * (required, must be valid email)</Label>
                     <Input
                         type="email"
                         value={values.email}
                         onChange={(e) => setValues((prev) => ({ ...prev, email: e.target.value }))}
                     />
                 </FormGroup>
+                <FormGroup>
+                    <Label>Bio (optional, max 200 chars)</Label>
+                    <Input
+                        value={values.bio}
+                        onChange={(e) => setValues((prev) => ({ ...prev, bio: e.target.value }))}
+                        placeholder="Tell us about yourself"
+                    />
+                    <small style={{ color: '#666', fontSize: '11px' }}>
+                        {values.bio.length} / 200 characters
+                    </small>
+                </FormGroup>
             </Section>
 
-            {/* Number Field */}
+            {/* Number Fields with validation */}
             <Section>
-                <SectionTitle>🔢 Age (number)</SectionTitle>
+                <SectionTitle>🔢 Number Fields (with validation)</SectionTitle>
                 <FormGroup>
-                    <Label>Age</Label>
+                    <Label>Age * (required, 18-120)</Label>
                     <Input
                         type="number"
                         value={values.age}
                         onChange={(e) => setValues((prev) => ({ ...prev, age: Number(e.target.value) }))}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label>Expected Salary (min: 0)</Label>
+                    <Input
+                        type="number"
+                        value={values.salary}
+                        onChange={(e) => setValues((prev) => ({ ...prev, salary: Number(e.target.value) }))}
                     />
                 </FormGroup>
             </Section>
@@ -212,9 +318,9 @@ export default function App() {
                 </FormGroup>
             </Section>
 
-            {/* Select Field */}
+            {/* Enum Field (Select) */}
             <Section>
-                <SectionTitle>🌍 Country (string - select)</SectionTitle>
+                <SectionTitle>🌍 Country * (required, enum options)</SectionTitle>
                 <FormGroup>
                     <Label>Country</Label>
                     <Select
@@ -228,9 +334,9 @@ export default function App() {
                 </FormGroup>
             </Section>
 
-            {/* Array Field */}
+            {/* Array Field with validation */}
             <Section>
-                <SectionTitle>🎯 Interests (array)</SectionTitle>
+                <SectionTitle>🎯 Interests (array, 1-5 items)</SectionTitle>
                 <FormGroup>
                     {interestOptions.map((interest) => (
                         <CheckboxLabel key={interest}>
@@ -249,12 +355,15 @@ export default function App() {
                             {interest}
                         </CheckboxLabel>
                     ))}
+                    <small style={{ color: '#666', fontSize: '11px', display: 'block', marginTop: '8px' }}>
+                        Selected: {values.interests.length} (must be 1-5)
+                    </small>
                 </FormGroup>
             </Section>
 
             {/* Nested Object Field */}
             <Section>
-                <SectionTitle>🏠 Address (object)</SectionTitle>
+                <SectionTitle>🏠 Address (object, no validation)</SectionTitle>
                 <FormGroup>
                     <Label>Street</Label>
                     <Input
@@ -302,13 +411,13 @@ export default function App() {
 
             {/* Inspector Help */}
             <InspectorHelp>
-                <HelpTitle>🧪 WebMCP Inspector - Sample Input Arguments</HelpTitle>
+                <HelpTitle>🧪 WebMCP Inspector - Test Validation</HelpTitle>
 
                 <p style={{ fontSize: '13px', margin: '0 0 8px 0' }}>
                     Tool name: <code>fill_registration_field</code>
                 </p>
 
-                <ExampleLabel>String - Fill name:</ExampleLabel>
+                <ExampleLabel>✅ Valid: Name with correct length</ExampleLabel>
                 <CodeBlock>
                     {`{
   "field": "name",
@@ -316,7 +425,31 @@ export default function App() {
 }`}
                 </CodeBlock>
 
-                <ExampleLabel>Number - Set age:</ExampleLabel>
+                <ExampleLabel>❌ Invalid: Name too short (minLength: 2)</ExampleLabel>
+                <CodeBlock>
+                    {`{
+  "field": "name",
+  "value": "J"
+}`}
+                </CodeBlock>
+
+                <ExampleLabel>✅ Valid: Email with correct pattern</ExampleLabel>
+                <CodeBlock>
+                    {`{
+  "field": "email",
+  "value": "john@example.com"
+}`}
+                </CodeBlock>
+
+                <ExampleLabel>❌ Invalid: Email wrong format</ExampleLabel>
+                <CodeBlock>
+                    {`{
+  "field": "email",
+  "value": "not-an-email"
+}`}
+                </CodeBlock>
+
+                <ExampleLabel>✅ Valid: Age within range (18-120)</ExampleLabel>
                 <CodeBlock>
                     {`{
   "field": "age",
@@ -324,15 +457,15 @@ export default function App() {
 }`}
                 </CodeBlock>
 
-                <ExampleLabel>Boolean - Subscribe:</ExampleLabel>
+                <ExampleLabel>❌ Invalid: Age below minimum (min: 18)</ExampleLabel>
                 <CodeBlock>
                     {`{
-  "field": "subscribe",
-  "value": true
+  "field": "age",
+  "value": 15
 }`}
                 </CodeBlock>
 
-                <ExampleLabel>String - Select country:</ExampleLabel>
+                <ExampleLabel>✅ Valid: Country from enum options</ExampleLabel>
                 <CodeBlock>
                     {`{
   "field": "country",
@@ -340,7 +473,15 @@ export default function App() {
 }`}
                 </CodeBlock>
 
-                <ExampleLabel>Array - Set interests:</ExampleLabel>
+                <ExampleLabel>❌ Invalid: Country not in options</ExampleLabel>
+                <CodeBlock>
+                    {`{
+  "field": "country",
+  "value": "INVALID"
+}`}
+                </CodeBlock>
+
+                <ExampleLabel>✅ Valid: Interests array (1-5 items)</ExampleLabel>
                 <CodeBlock>
                     {`{
   "field": "interests",
@@ -348,7 +489,31 @@ export default function App() {
 }`}
                 </CodeBlock>
 
-                <ExampleLabel>Object - Set full address:</ExampleLabel>
+                <ExampleLabel>❌ Invalid: Interests array too many items (max: 5)</ExampleLabel>
+                <CodeBlock>
+                    {`{
+  "field": "interests",
+  "value": ["Technology", "Sports", "Music", "Travel", "Food", "Gaming"]
+}`}
+                </CodeBlock>
+
+                <ExampleLabel>❌ Invalid: Trying to clear required field with null</ExampleLabel>
+                <CodeBlock>
+                    {`{
+  "field": "name",
+  "value": null
+}`}
+                </CodeBlock>
+
+                <ExampleLabel>✅ Valid: Clear optional field with null</ExampleLabel>
+                <CodeBlock>
+                    {`{
+  "field": "bio",
+  "value": null
+}`}
+                </CodeBlock>
+
+                <ExampleLabel>✅ Valid: Set full address object</ExampleLabel>
                 <CodeBlock>
                     {`{
   "field": "address",
@@ -357,14 +522,6 @@ export default function App() {
     "city": "New York",
     "zip": "10001"
   }
-}`}
-                </CodeBlock>
-
-                <ExampleLabel>Null - Clear a field:</ExampleLabel>
-                <CodeBlock>
-                    {`{
-  "field": "name",
-  "value": null
 }`}
                 </CodeBlock>
             </InspectorHelp>
