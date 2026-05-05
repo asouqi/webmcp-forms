@@ -524,6 +524,29 @@ export default function App() {
   }
 }`}
                 </CodeBlock>
+
+                <ExampleLabel>✅ Valid: Fill multiple fields at once</ExampleLabel>
+                <CodeBlock>
+                    {`{
+  "fields": {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "age": 25,
+    "country": "US",
+    "subscribe": true
+  }
+}`}
+                </CodeBlock>
+
+                <ExampleLabel>✅ Valid: Fill multiple fields (partial update)</ExampleLabel>
+                <CodeBlock>
+                    {`{
+  "fields": {
+    "name": "Jane Smith",
+    "email": "jane@example.com"
+  }
+}`}
+                </CodeBlock>
             </InspectorHelp>
         </Container>
     );

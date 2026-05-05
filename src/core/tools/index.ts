@@ -1,5 +1,8 @@
 export { createFillFieldTool } from "./fillField"
+export { createFillMultipleFieldsTool } from "./fillMultipleFields"
 export { createGetFormStateTool } from "./getFormState"
 export { createGetFieldValueTool } from "./getFieldValue"
 export { createSubmitFormTool } from "./submitForm"
 export { createResetFormTool } from "./resetForm"
+export { createClearFieldTool } from "./clearField"
+export { createValidateFromTool } from "./validateForm"
