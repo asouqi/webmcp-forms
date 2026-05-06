@@ -1,12 +1,12 @@
 import {FormConfig, FormState} from "../types"
-import {defineTool} from "webmcp-adapter"
+import {defineTool, JsonValue } from "webmcp-adapter"
 import { fieldDescription, getFieldEmptyValue } from "../utils"
 
 export function createClearFieldTool(config: FormConfig, state: FormState) {
     return defineTool({
         name: `clear_${config.formId}_field`,
         description: `Clear a field in the ${config.formId} form to its default empty value.\n\nAvailable fields:\n${fieldDescription(config.fields)}`,
-        schema: {
+        inputSchema: {
             type: "object",
             properties: {
                 field: {
@@ -27,16 +27,20 @@ export function createClearFieldTool(config: FormConfig, state: FormState) {
                     isError: true,
                     structuredContent: {
                         success: false,
-                        error: `Unknown field: ${fieldName}`
+                        error: `Unknown field: ${fieldName}` as string,
+                        field: fieldName,
+                        value: null,
+                        fieldType: null
                     }
                 }
             }
-            const emptyValue = getFieldEmptyValue(fieldConfig)
-            state.setFieldValue(field, emptyValue)
+            const emptyValue = getFieldEmptyValue(fieldConfig) as JsonValue
+            state.setFieldValue(fieldName, emptyValue)
             return {
                 content: [{ type: 'text', text: `Cleared "${fieldName}" to ${JSON.stringify(emptyValue)}` }],
                 structuredContent: {
                     success: true,
+                    error: null,
                     field: fieldName,
                     value: emptyValue,
                     fieldType: fieldConfig.type

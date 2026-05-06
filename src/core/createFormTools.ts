@@ -7,7 +7,7 @@ import {
     createSubmitFormTool,
     createResetFormTool,
     createClearFieldTool,
-    createValidateFromTool
+    createValidateFormTool
 } from './tools'
 
 export function createFormTools(config: FormConfig, state: FormState): FormToolsResult {
@@ -20,7 +20,7 @@ export function createFormTools(config: FormConfig, state: FormState): FormTools
             createSubmitFormTool(config, state),
             createResetFormTool(config, state),
             createClearFieldTool(config, state),
-            createValidateFromTool(config, state)
+            createValidateFormTool(config, state)
         ]
     }
 }

@@ -1,12 +1,12 @@
 import {useEffect, useRef} from "react"
-import {registerBatch} from "webmcp-adapter"
+import { registerBatch, JsonValue } from "webmcp-adapter"
 import {createFormTools, FormField} from "../core"
 
 export interface UseFormToolsOptions {
     formId: string
     fields: Record<string, FormField>
-    values: Record<string, unknown>
-    onChange: (field: string, value: unknown) => void
+    values: Record<string, JsonValue>
+    onChange: (field: string, value: JsonValue) => void
     onSubmit?: () => void | Promise<void>
     onReset?: () => void
 }

@@ -1,5 +1,5 @@
 import {FormConfig, FormState} from "../types"
-import {defineTool} from "webmcp-adapter"
+import {defineTool, JsonValue} from "webmcp-adapter"
 import { buildFieldValueSchema, fieldDescription } from "../utils"
 
 function buildToolSchema(config: FormConfig) {
@@ -18,8 +18,8 @@ function buildToolSchema(config: FormConfig) {
                 properties: fieldSchema,
                 additionalProperties: false
             },
-            required: ["fields"]
-        }
+        },
+        required: ["fields"],
     }
 }
 
@@ -28,12 +28,12 @@ export function createFillMultipleFieldsTool(config: FormConfig, state: FormStat
         name: `fill_${config.formId}_multiple_fields`,
         description: `Fill multiple fields in the ${config.formId} form at once. More efficient than calling 
         fill_field multiple times.\n\nAvailable fields:\n${fieldDescription(config.fields)}`,
-        schema: buildToolSchema(config),
+        inputSchema: buildToolSchema(config),
         execute: ({ fields }) => {
-            const fieldsObj = fields as Record<string, unknown>
+            const fieldsObj = fields as Record<string, JsonValue>
             const updatedFields: string[] = []
             const skippedFields: string[] = []
-            const updates: Record<string, unknown> = {}
+            const updates: Record<string, JsonValue> = {}
 
             for (const [fieldName, value] of Object.entries(fieldsObj)) {
                 if (!(fieldName in config.fields)) {

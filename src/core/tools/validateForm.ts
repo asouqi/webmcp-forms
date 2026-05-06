@@ -1,19 +1,19 @@
 import {FormConfig, FormState} from "../types"
 import { buildFieldSchema, isEmpty } from "../utils"
-import {defineTool, validateJsonSchema} from "webmcp-adapter"
+import {defineTool, validateJsonSchema, JsonValue} from "webmcp-adapter"
 
-export function createValidateFromTool(config: FormConfig, state: FormState) {
+export function createValidateFormTool(config: FormConfig, state: FormState) {
     return defineTool({
         name: `validate_${config.formId}_form`,
         description: `Validate all fields in the ${config.formId} form without submitting. Returns validation errors if any fields are invalid.`,
-        schema: {
+        inputSchema: {
             type: "object",
             properties: {},
             required: []
         },
         execute: () => {
             const values = state.getValue()
-            const errors: Record<string, string> = {}
+            const errors: Record<string, JsonValue> = {}
             const validFields = []
             let isValid = true
             for (const [fieldName, fieldConfig] of Object.entries(config.fields)) {
@@ -58,7 +58,7 @@ export function createValidateFromTool(config: FormConfig, state: FormState) {
                 structuredContent: {
                     formId: config.formId,
                     isValid,
-                    errors: isValid ? undefined : errors,
+                    errors,
                     validFields,
                     fieldCount: Object.keys(config.fields).length,
                     errorCount: Object.keys(errors).length

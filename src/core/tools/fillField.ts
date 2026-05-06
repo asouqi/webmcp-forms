@@ -1,5 +1,5 @@
 import {FormConfig, FormState} from "../types"
-import { defineTool } from "webmcp-adapter"
+import { defineTool, JsonValue } from "webmcp-adapter"
 import { buildFieldValueSchema, fieldDescription } from "../utils"
 
 /**
@@ -42,16 +42,16 @@ export function createFillFieldTool(config: FormConfig, state: FormState) {
     return defineTool({
         name: `fill_${config.formId}_field`,
         description: `Fill a field in the ${config.formId} form. \n\n Fields:\n${fieldDescription(config.fields)}`,
-        schema: buildToolSchema(config),
+        inputSchema: buildToolSchema(config),
         execute: ({ field, value }) => {
-            state.setFieldValue(field as string, value);
+            state.setFieldValue(field as string, value as JsonValue);
             return {
                 content: [{ type: 'text', text: `Set "${field}" to ${JSON.stringify(value)}` }],
                 structuredContent: {
                     success: true,
-                    field,
-                    value,
-                    fieldType: config.fields[field]?.type
+                    field: field as string,
+                    value: value as JsonValue,
+                    fieldType: config.fields[field as string]?.type
                 }
             }
         },

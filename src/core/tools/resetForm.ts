@@ -6,7 +6,7 @@ export function createResetFormTool(config: FormConfig, state: FormState) {
     return defineTool({
         name: `reset_${config.formId}_form`,
         description: `Reset the ${config.formId} form to its initial state. This will clear all field values.`,
-        schema: {
+        inputSchema: {
             type: "object",
             properties: {},
             required: []

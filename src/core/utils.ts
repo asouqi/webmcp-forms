@@ -1,11 +1,12 @@
 import { FormField } from "./types"
+import { JsonValue } from "webmcp-adapter"
 
 /**
  * Builds a JSON Schema from a FormField definition.
  * Used by fillField (for tool input validation) and validateForm (for value validation).
  */
-export function buildFieldSchema(field: FormField): Record<string, unknown> {
-    const schema: Record<string, unknown> = {}
+export function buildFieldSchema(field: FormField): Record<string, JsonValue> {
+    const schema: Record<string, JsonValue> = {}
 
     switch (field.type) {
         case 'string':
@@ -45,7 +46,7 @@ export function buildFieldSchema(field: FormField): Record<string, unknown> {
 /**
  * Builds a schema that allows null for optional fields (used in fillField tool).
  */
-export function buildFieldValueSchema(field: FormField): Record<string, unknown> {
+export function buildFieldValueSchema(field: FormField): Record<string, JsonValue> {
     const schema = buildFieldSchema(field)
 
     // Required fields: return schema as-is
@@ -65,7 +66,7 @@ export function buildFieldValueSchema(field: FormField): Record<string, unknown>
 /**
  * Checks if a value is considered empty
  */
-export function isEmpty(value: unknown): boolean {
+export function isEmpty(value: JsonValue): boolean {
     if (value === undefined || value === null) return true
     if (typeof value === 'string' && value.trim() === '') return true
     if (Array.isArray(value) && value.length === 0) return true
@@ -92,7 +93,7 @@ export function fieldDescription(fields: Record<string, FormField>): string {
 /**
  * Gets the default empty value for a field type
  */
-export function getFieldEmptyValue(field: FormField): unknown {
+export function getFieldEmptyValue(field: FormField): JsonValue {
     switch (field.type) {
         case 'string':
             return ''
@@ -112,8 +113,8 @@ export function getFieldEmptyValue(field: FormField): unknown {
 /**
  * Gets default values for all fields in a form
  */
-export function getFieldsEmptyValues(fields: Record<string, FormField>): Record<string, unknown> {
-    const values: Record<string, unknown> = {}
+export function getFieldsEmptyValues(fields: Record<string, FormField>): Record<string, JsonValue> {
+    const values: Record<string, JsonValue> = {}
     for (const [fieldName, fieldConfig] of Object.entries(fields)) {
         values[fieldName] = getFieldEmptyValue(fieldConfig)
     }

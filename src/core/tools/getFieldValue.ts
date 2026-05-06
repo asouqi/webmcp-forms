@@ -1,11 +1,11 @@
 import {FormConfig, FormState} from "../types"
-import { defineTool } from "webmcp-adapter"
+import { defineTool, JsonValue } from "webmcp-adapter"
 
 export function createGetFieldValueTool(config: FormConfig, state: FormState) {
     return defineTool({
         name: `get_${config.formId}_field_value`,
         description: `Get the current value of a specific field in the ${config.formId} form.`,
-        schema: {
+        inputSchema: {
             type: "object",
             properties: {
                 field: {
@@ -39,7 +39,7 @@ export function createGetFieldValueTool(config: FormConfig, state: FormState) {
                 structuredContent: {
                     success: true,
                     field: fieldName,
-                    value,
+                    value: value as JsonValue,
                 }
             }
         }
