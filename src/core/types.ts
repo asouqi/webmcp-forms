@@ -5,15 +5,15 @@ export type FieldType = 'string' | 'number' | 'boolean' | 'array' | 'object'
 export interface FormField<T extends FieldType = FieldType> {
     type: T
     label?: string
-    options?: T extends 'string' ? string[] : T extends 'number' ? number[] : never
-    min?: T extends 'number' ? number : never
-    max?: T extends 'number' ? number : never
-    step?: T extends 'number' ? number : never
-    minLength?: T extends 'string' ? number : never
-    maxLength?: T extends 'string' ? number : never
-    minItems?: T extends 'array' ? number : never
-    maxItems?: T extends 'array' ? number : never
-    pattern?: T extends 'string' ? string : never
+    options?: string[]
+    min?: number
+    max?: number
+    step?: number
+    minLength?: number
+    maxLength?: number
+    minItems?: number
+    maxItems?: number
+    pattern?: string
     required?: boolean
     placeholder?: string
 }

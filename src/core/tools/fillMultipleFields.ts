@@ -57,7 +57,14 @@ export function createFillMultipleFieldsTool(config: FormConfig, state: FormStat
                 responseText = "No fields provided to update"
             }
             return {
-                content: [{ type: "text", text: responseText }]
+                content: [{ type: "text", text: responseText }],
+                structuredContent: {
+                    success: updatedFields.length > 0,
+                    formId: config.formId,
+                    updatedFields,
+                    skippedFields,
+                    updates
+                }
             }
         }
     })
