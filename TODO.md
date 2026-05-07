@@ -2,7 +2,7 @@
 - [x] create  `validate_{formId}_form`
 - [x] create  `fill_{formId}_multiple_fields`
 - [x] create  `clear_{formId}_field`
-- [ ] type improvement FormState`unknown`
+- [x] type improvement FormState`unknown`
 - [ ] create monorepo
 - [ ] add support to formik
 - [ ] update README
