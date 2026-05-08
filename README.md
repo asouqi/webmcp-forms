@@ -218,36 +218,6 @@ const unregister = registerBatch(tools)
 // unregister()
 ```
 
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Your Application                      │
-├─────────────────────────────────────────────────────────┤
-│                                                          │
-│   ┌─────────────────┐     ┌─────────────────────────┐  │
-│   │  webmcp-forms   │     │  webmcp-adapter-react   │  │
-│   │                 │     │                         │  │
-│   │ createFormTools │────▶│  useTools()             │  │
-│   │                 │     │                         │  │
-│   └─────────────────┘     └───────────┬─────────────┘  │
-│                                       │                 │
-│                                       ▼                 │
-│                           ┌─────────────────────────┐  │
-│                           │    webmcp-adapter       │  │
-│                           │                         │  │
-│                           │    registerBatch()      │  │
-│                           └───────────┬─────────────┘  │
-│                                       │                 │
-└───────────────────────────────────────┼─────────────────┘
-                                        │
-                                        ▼
-                            ┌─────────────────────────┐
-                            │   Browser WebMCP API    │
-                            │  navigator.modelContext │
-                            └─────────────────────────┘
-```
-
 ## Related Packages
 
 - [`webmcp-adapter`](https://github.com/asouqi/webmcp-adapter) - Core adapter for defining and registering tools
