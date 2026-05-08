@@ -1,4 +1,14 @@
-import { ToolDefinition, JsonValue } from "webmcp-adapter"
+import { JsonValue } from "webmcp-adapter"
+
+
+export type FormTools = 'fill-field'
+    | 'fill-multiple-field'
+    | 'get-form-state'
+    | 'get-field-value'
+    | 'submit-form'
+    | 'reset-form'
+    | 'clear-field'
+    | 'validate-form'
 
 export type FieldType = 'string' | 'number' | 'boolean' | 'array' | 'object'
 
@@ -28,8 +38,4 @@ export interface FormState<TValues extends Record<string, JsonValue> = Record<st
     getValue: () => TValues
     submit?: () => void | Promise<void>
     reset?: () => void
-}
-
-export interface FormToolsResult {
-    tools: ToolDefinition[]
 }

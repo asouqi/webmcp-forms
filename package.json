@@ -1,7 +1,7 @@
 {
   "name": "webmcp-forms",
-  "version": "0.1.0",
-  "description": "AI-powered form tools for WebMCP",
+  "version": "0.0.1",
+  "description": "AAI-powered form tools for WebMCP. Enables AI assistants to fill, validate, clear, and submit web forms through the Model Context Protocol.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -11,11 +11,6 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
-    },
-    "./react": {
-      "types": "./dist/react/index.d.ts",
-      "import": "./dist/react/index.mjs",
-      "require": "./dist/react/index.js"
     }
   },
   "files": [
@@ -26,28 +21,26 @@
     "dev": "vite build --watch",
     "typecheck": "tsc --noEmit"
   },
-  "peerDependencies": {
-    "react": ">=18.0.0",
-    "webmcp-adapter": "workspace:*"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    }
-  },
   "devDependencies": {
-    "@types/react": "^19.2.14",
     "typescript": "^6.0.2",
     "vite": "^8.0.8",
-    "vite-plugin-dts": "^4.5.4",
-    "webmcp-adapter": "workspace:*"
+    "vite-plugin-dts": "^4.5.4"
   },
   "keywords": [
     "webmcp",
+    "mcp",
     "forms",
     "ai",
-    "react",
-    "mcp"
+    "tools",
+    "model-context-protocol",
+    "validation",
+    "form-filling",
+    "browser",
+    "assistant"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asouqi/webmcp-forms.git"
+  },
   "license": "MIT"
 }
