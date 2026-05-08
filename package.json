@@ -21,6 +21,9 @@
     "dev": "vite build --watch",
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "webmcp-adapter": "0.0.4"
+  },
   "devDependencies": {
     "typescript": "^6.0.2",
     "vite": "^8.0.8",
