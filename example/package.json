@@ -15,7 +15,7 @@
     "styled-components": "^6.4.0",
     "webmcp-adapter": "0.0.4",
     "webmcp-adapter-react": "0.0.2",
-    "webmcp-forms": "0.0.3"
+    "webmcp-forms": "0.0.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
