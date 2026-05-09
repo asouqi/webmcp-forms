@@ -11,7 +11,7 @@ export function createSubmitFormTool(config: FormConfig, state: FormState) {
             required: []
         },
         execute: async () => {
-            const values = state.getValue()
+            const values = state.getValues()
 
             if (state.submit) {
                 try {

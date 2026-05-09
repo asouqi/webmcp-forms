@@ -12,7 +12,7 @@ export function createValidateFormTool(config: FormConfig, state: FormState) {
             required: []
         },
         execute: () => {
-            const values = state.getValue()
+            const values = state.getValues()
             const errors: Record<string, JsonValue> = {}
             const validFields = []
             let isValid = true

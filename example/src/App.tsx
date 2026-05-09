@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import {createFormTools, useFormTools, FormTools} from "webmcp-forms";
+import {createFormTools, FormTools} from "webmcp-forms";
 import {defineTool} from "webmcp-adapter";
 import {useTools} from "webmcp-adapter-react";
 
@@ -233,7 +233,7 @@ export default function App() {
         tools: createFormTools({
             formId: 'test',
             fields,
-            values,
+            getValues: () => values,
             onChange: (field, value) => {
                 setValues((prev) => ({ ...prev, [field]: value }));
             },

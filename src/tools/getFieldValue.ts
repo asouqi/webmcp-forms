@@ -29,7 +29,7 @@ export function createGetFieldValueTool(config: FormConfig, state: FormState) {
                 }
             }
 
-            const value = state.getValue()[fieldName]
+            const value = state.getValues()[fieldName]
 
             return {
                 content: [{

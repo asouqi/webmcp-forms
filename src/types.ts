@@ -35,7 +35,7 @@ export interface FormConfig<TFields extends Record<string, FormField> = Record<s
 
 export interface FormState<TValues extends Record<string, JsonValue> = Record<string, JsonValue>> {
     setFieldValue: <K extends keyof TValues>(field: K, value: TValues[K]) => void
-    getValue: () => TValues
+    getValues: () => TValues
     submit?: () => void | Promise<void>
     reset?: () => void
 }

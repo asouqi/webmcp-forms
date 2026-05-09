@@ -81,7 +81,7 @@ function ContactForm() {
         tools: createFormTools({
             formId: 'contact',
             fields,
-            values,
+            getValues: () => values,
             onChange: (field, value) => {
                 setValues(prev => ({ ...prev, [field]: value }))
             },
@@ -142,7 +142,7 @@ useTools({
     tools: createFormTools({
         formId: 'contact',
         fields,
-        values,
+        getValues,
         onChange: (field, value) => setValues(prev => ({ ...prev, [field]: value })),
         selectedTools: new Set<FormTools>(['fill-field', 'validate-form', 'submit-form'])
     }),
@@ -180,7 +180,7 @@ useTools({
     tools: createFormTools({
         formId: 'contact',
         fields,
-        values,
+        getValues: () => values,
         onChange: (field, value) => setValues(prev => ({ ...prev, [field]: value })),
         customTools: [autofillTool]
     }),
@@ -202,7 +202,7 @@ const tools = createFormTools({
         name: { type: 'string', required: true },
         email: { type: 'string', required: true }
     },
-    values: formValues,
+    getValues: () => formValues,
     onChange: (field, value) => {
         formValues[field] = value
         document.querySelector(`[name="${field}"]`).value = value

@@ -25,7 +25,7 @@ const TOOL_CREATORS: Record<FormTools, (config: FormConfig, state: FormState) =>
 export interface CreateFormToolsOptions {
     formId: string
     fields: Record<string, FormField>
-    values: Record<string, JsonValue>
+    getValues: () => Record<string, JsonValue>
     onChange: (field: string, value: JsonValue) => void
     onSubmit?: () => void | Promise<void>
     onReset?: () => void
@@ -34,13 +34,14 @@ export interface CreateFormToolsOptions {
 }
 
 export function createFormTools(options: CreateFormToolsOptions): ToolDefinition[] {
-    const { formId, fields, values, onChange, onSubmit, onReset, selectedTools, customTools = [] } = options
+    const { formId, fields, getValues, onChange, onSubmit, onReset, selectedTools, customTools = [] } = options
     const config: FormConfig = {
         formId,
         fields
     }
+    console.log(getValues)
     const state: FormState = {
-        getValue: () => values,
+        getValues,
         setFieldValue: (field, value) => onChange(field, value),
         reset: () => {
             onReset && onReset()
