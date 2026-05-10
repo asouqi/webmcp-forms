@@ -1,6 +1,6 @@
-import {FormConfig, FormState} from "../types"
+import { FormConfig, FormState } from "../types"
 import { defineTool } from "webmcp-adapter"
-import { getFieldsEmptyValues } from "../utils"
+import { getFieldsDefaultValues } from "../utils"
 
 export function createResetFormTool(config: FormConfig, state: FormState) {
     return defineTool({
@@ -15,7 +15,7 @@ export function createResetFormTool(config: FormConfig, state: FormState) {
             if (state.reset) {
                 state.reset()
             } else {
-                for (const [fieldName, value] of Object.entries(getFieldsEmptyValues(config.fields))) {
+                for (const [fieldName, value] of Object.entries(getFieldsDefaultValues(config.fields))) {
                     state.setFieldValue(fieldName, value)
                 }
             }

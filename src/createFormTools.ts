@@ -39,16 +39,12 @@ export function createFormTools(options: CreateFormToolsOptions): ToolDefinition
         formId,
         fields
     }
-    console.log(getValues)
+
     const state: FormState = {
         getValues,
         setFieldValue: (field, value) => onChange(field, value),
-        reset: () => {
-            onReset && onReset()
-        },
-        submit: () => {
-            onSubmit && onSubmit()
-        },
+        reset: onReset,
+        submit: onSubmit,
     }
 
     const keys = selectedTools ? Array.from(selectedTools.keys()) : Object.keys(TOOL_CREATORS) as FormTools[]

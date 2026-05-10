@@ -86,6 +86,7 @@ export function fieldDescription(fields: Record<string, FormField>): string {
         if (field.minLength !== undefined) desc += ` [minLength: ${field.minLength}]`
         if (field.maxLength !== undefined) desc += ` [maxLength: ${field.maxLength}]`
         if (field.required) desc += ` (required)`
+        if (field.defaultValue !== undefined) desc += ` [default: ${JSON.stringify(field.defaultValue)}]`
         return desc
     }).join('\n')
 }
@@ -98,7 +99,7 @@ export function getFieldEmptyValue(field: FormField): JsonValue {
         case 'string':
             return ''
         case 'number':
-            return null
+            return 0
         case 'boolean':
             return false
         case 'array':
@@ -117,6 +118,29 @@ export function getFieldsEmptyValues(fields: Record<string, FormField>): Record<
     const values: Record<string, JsonValue> = {}
     for (const [fieldName, fieldConfig] of Object.entries(fields)) {
         values[fieldName] = getFieldEmptyValue(fieldConfig)
+    }
+    return values
+}
+
+/**
+ * Gets the default value for a field - uses defaultValue if specified,
+ * otherwise falls back to type-based empty value
+ */
+export function getFieldDefaultValue(field: FormField): JsonValue {
+    if (field.defaultValue !== undefined) {
+        return field.defaultValue
+    }
+
+    return getFieldEmptyValue(field)
+}
+
+/**
+ * Gets default values for all fields in a form
+ */
+export function getFieldsDefaultValues(fields: Record<string, FormField>): Record<string, JsonValue> {
+    const values: Record<string, JsonValue> = {}
+    for (const [fieldName, fieldConfig] of Object.entries(fields)) {
+        values[fieldName] = getFieldDefaultValue(fieldConfig)
     }
     return values
 }

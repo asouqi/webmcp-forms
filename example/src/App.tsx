@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import {createFormTools, FormTools} from "webmcp-forms";
+import { createFormTools, FormField } from "webmcp-forms";
 import {defineTool} from "webmcp-adapter";
 import {useTools} from "webmcp-adapter-react";
+import {CodeBlock, ExampleLabel, HelpTitle, InspectorHelp} from "./styled";
 
 const Container = styled.div`
   max-width: 600px;
@@ -77,38 +78,6 @@ const Debug = styled.pre`
   max-height: 300px;
 `;
 
-const InspectorHelp = styled.div`
-  margin-top: 24px;
-  padding: 16px;
-  background: #e8f4ff;
-  border-radius: 8px;
-  border: 1px solid #b8daff;
-`;
-
-const HelpTitle = styled.h3`
-  margin: 0 0 12px 0;
-  font-size: 14px;
-  color: #004085;
-`;
-
-const CodeBlock = styled.pre`
-  background: #1e1e1e;
-  color: #d4d4d4;
-  padding: 12px;
-  border-radius: 4px;
-  font-size: 11px;
-  overflow-x: auto;
-  margin: 8px 0;
-`;
-
-const ExampleLabel = styled.span`
-  display: block;
-  font-size: 12px;
-  color: #666;
-  margin-top: 12px;
-  margin-bottom: 4px;
-`;
-
 const ValidationNote = styled.div`
   background: #fff3cd;
   border: 1px solid #ffc107;
@@ -125,7 +94,7 @@ const ValidationRule = styled.li`
 `;
 
 // Form fields configuration with validation
-const fields: Record<string, any> = {
+const fields: Record<string, FormField> = {
     // String with minLength, maxLength, and required
     name: {
         type: 'string',
@@ -192,7 +161,12 @@ const fields: Record<string, any> = {
     // Nested object field (no specific validation)
     address: {
         type: 'object',
-        label: 'Address'
+        label: 'Address',
+        defaultValue: {
+            street: '',
+            city: '',
+            zip: '',
+        }
     },
 };
 
@@ -237,7 +211,7 @@ export default function App() {
             onChange: (field, value) => {
                 setValues((prev) => ({ ...prev, [field]: value }));
             },
-            selectedTools: new Set<FormTools>(['fill-field', 'clear-field']),
+            selectedTools: new Set(['fill-field', 'clear-field']),
             customTools: [autoFillTool]
         }),
         deps: []
