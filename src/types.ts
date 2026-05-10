@@ -26,7 +26,7 @@ export interface FormField<T extends FieldType = FieldType> {
     pattern?: string
     required?: boolean
     placeholder?: string
-    defaultValue?: T
+    defaultValue?: JsonValue
 }
 
 export interface FormConfig<TFields extends Record<string, FormField> = Record<string, FormField>> {
