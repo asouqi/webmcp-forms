@@ -36,6 +36,7 @@ function createFormTools(options: CreateFormToolsOptions): ToolDefinition[]
 | `onReset` | `() => void` | No | Reset handler |
 | `selectedTools` | `Set<FormTools>` | No | Specific tools to include (defaults to all) |
 | `customTools` | `ToolDefinition[]` | No | Additional custom tools |
+| `validationSchema` | `StandardSchema` | No | Accepts any schema object that implements the Standard Schema spec (~standard). When provided, field values are validated before being applied to the form, giving the AI immediate feedback if a value is invalid. |
 
 
 ### FormTools
