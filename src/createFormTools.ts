@@ -1,4 +1,4 @@
-import {JsonValue, ToolDefinition} from "webmcp-adapter"
+import {JsonValue, StandardSchema, ToolDefinition} from "webmcp-adapter"
 import type { FormField, FormConfig, FormState, FormTools } from './types'
 import {
     createFillFieldTool,
@@ -25,6 +25,7 @@ const TOOL_CREATORS: Record<FormTools, (config: FormConfig, state: FormState) =>
 export interface CreateFormToolsOptions {
     formId: string
     fields: Record<string, FormField>
+    validationSchema?: StandardSchema
     getValues: () => Record<string, JsonValue>
     onChange: (field: string, value: JsonValue) => void
     onSubmit?: () => void | Promise<void>
@@ -34,10 +35,11 @@ export interface CreateFormToolsOptions {
 }
 
 export function createFormTools(options: CreateFormToolsOptions): ToolDefinition[] {
-    const { formId, fields, getValues, onChange, onSubmit, onReset, selectedTools, customTools = [] } = options
+    const { formId, fields, validationSchema, getValues, onChange, onSubmit, onReset, selectedTools, customTools = [] } = options
     const config: FormConfig = {
         formId,
-        fields
+        fields,
+        validationSchema
     }
 
     const state: FormState = {

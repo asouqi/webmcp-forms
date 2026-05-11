@@ -32,6 +32,7 @@ export interface FormField<T extends FieldType = FieldType> {
 export interface FormConfig<TFields extends Record<string, FormField> = Record<string, FormField>> {
     formId: string
     fields: TFields
+    validationSchema?: any
 }
 
 export interface FormState<TValues extends Record<string, JsonValue> = Record<string, JsonValue>> {

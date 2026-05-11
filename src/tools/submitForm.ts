@@ -10,6 +10,7 @@ export function createSubmitFormTool(config: FormConfig, state: FormState) {
             properties: {},
             required: []
         },
+        validator: config.validationSchema,
         execute: async () => {
             const values = state.getValues()
 

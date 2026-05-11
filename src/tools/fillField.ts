@@ -43,6 +43,7 @@ export function createFillFieldTool(config: FormConfig, state: FormState) {
         name: `fill_${config.formId}_field`,
         description: `Fill a field in the ${config.formId} form. \n\n Fields:\n${fieldDescription(config.fields)}`,
         inputSchema: buildToolSchema(config),
+        validator: config.validationSchema,
         execute: ({ field, value }) => {
             state.setFieldValue(field as string, value as JsonValue);
             return {

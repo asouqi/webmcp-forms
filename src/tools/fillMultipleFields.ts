@@ -29,6 +29,7 @@ export function createFillMultipleFieldsTool(config: FormConfig, state: FormStat
         description: `Fill multiple fields in the ${config.formId} form at once. More efficient than calling 
         fill_field multiple times.\n\nAvailable fields:\n${fieldDescription(config.fields)}`,
         inputSchema: buildToolSchema(config),
+        validator: config.validationSchema,
         execute: ({ fields }) => {
             const fieldsObj = fields as Record<string, JsonValue>
             const updatedFields: string[] = []
