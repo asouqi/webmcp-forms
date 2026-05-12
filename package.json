@@ -22,7 +22,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "webmcp-adapter": "0.0.4"
+    "webmcp-adapter": "0.0.8"
   },
   "devDependencies": {
     "typescript": "^6.0.2",

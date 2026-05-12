@@ -1,5 +1,5 @@
 import { FormField } from "./types"
-import { JsonValue } from "webmcp-adapter"
+import {JsonValue, validateJsonSchema} from "webmcp-adapter"
 
 /**
  * Builds a JSON Schema from a FormField definition.
@@ -61,6 +61,44 @@ export function buildFieldValueSchema(field: FormField): Record<string, JsonValu
             { type: 'null' }
         ]
     }
+}
+
+/***
+ * Validate all form field values against their field config
+ */
+export function validateFormValues(values: Record<string, JsonValue>, fieldsConfig: Record<string, FormField>) {
+    const errors: Record<string, JsonValue> = {}
+    const validFields = []
+    let isValid = true
+
+    for (const [fieldName, fieldConfig] of Object.entries(fieldsConfig)) {
+        const value = values[fieldName]
+        const label = fieldConfig.label || fieldName
+        // check required fields
+        if (fieldConfig.required && isEmpty(value)) {
+            errors[fieldName] = `${label} is required`
+            isValid = false
+            continue
+        }
+        // skip validation for empty optional fields
+        if (isEmpty(value)) {
+            validFields.push(fieldName)
+            continue
+        }
+
+        // Validate against field schema
+        const fieldSchema = buildFieldSchema(fieldConfig)
+        const result = validateJsonSchema(fieldSchema, value)
+
+        if (!result.valid) {
+            errors[fieldName] = result.error || `${label} is invalid`
+            isValid = false
+        } else {
+            validFields.push(fieldName)
+        }
+    }
+
+    return { isValid, errors, validFields }
 }
 
 /**

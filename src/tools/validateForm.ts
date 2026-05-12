@@ -1,6 +1,6 @@
-import {FormConfig, FormState} from "../types"
-import { buildFieldSchema, isEmpty } from "../utils"
-import {defineTool, validateJsonSchema, JsonValue} from "webmcp-adapter"
+import { FormConfig, FormState } from "../types"
+import { validateFormValues } from "../utils"
+import { defineTool, isStandardSchema, validateWithStandardSchema } from "webmcp-adapter"
 
 export function createValidateFormTool(config: FormConfig, state: FormState) {
     return defineTool({
@@ -11,47 +11,30 @@ export function createValidateFormTool(config: FormConfig, state: FormState) {
             properties: {},
             required: []
         },
-        execute: () => {
+        execute: async () => {
             const values = state.getValues()
-            const errors: Record<string, JsonValue> = {}
-            const validFields = []
-            let isValid = true
-            for (const [fieldName, fieldConfig] of Object.entries(config.fields)) {
-                const value = values[fieldName]
-                const label = fieldConfig.label || fieldName
-                // check required fields
-                if (fieldConfig.required && isEmpty(value)) {
-                    errors[fieldName] = `${label} is required`
-                    isValid = false
-                    continue
-                }
-                // skip validation for empty optional fields
-                if (isEmpty(value)) {
-                    validFields.push(fieldName)
-                    continue
-                }
 
-                // Validate against field schema
-                const fieldSchema = buildFieldSchema(fieldConfig)
-                const result = validateJsonSchema(fieldSchema, value)
+            let isValid: boolean
+            let errors: {} | { _form: string }
+            let validFields: string[]
 
-                if (!result.valid) {
-                    errors[fieldName] = result.error || `${label} is invalid`
-                    isValid = false
-                } else {
-                    validFields.push(fieldName)
-                }
-            }
-
-            let responseText: string
-            if (isValid) {
-                responseText = `✓ Form "${config.formId}" is valid and ready to submit.`
+            if (config.validationSchema && isStandardSchema(config.validationSchema)) {
+                const result = await validateWithStandardSchema(config.validationSchema, values)
+                isValid = result.valid
+                errors = result.errors ?? {}
+                validFields = isValid
+                    ? Object.keys(config.fields)
+                    : Object.keys(config.fields).filter(f => !(f in errors))
             } else {
-                const errorList = Object.entries(errors)
-                    .map(([field, error]) => `• ${field}: ${error}`)
-                    .join('\n')
-                responseText = `✗ Form "${config.formId}" has validation errors:\n${errorList}`
+                // Fall back to per-field JSON Schema validation
+                ;({ isValid, errors, validFields } = validateFormValues(values, config.fields))
             }
+
+            const responseText = isValid
+                ? `✓ Form "${config.formId}" is valid and ready to submit.`
+                : `✗ Form "${config.formId}" has validation errors:\n${
+                    Object.entries(errors).map(([f, e]) => `• ${f}: ${e}`).join('\n')
+                }`
 
             return {
                 content: [{ type: 'text', text: responseText }],

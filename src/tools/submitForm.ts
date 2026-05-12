@@ -4,13 +4,12 @@ import { defineTool } from "webmcp-adapter"
 export function createSubmitFormTool(config: FormConfig, state: FormState) {
     return defineTool({
         name: `submit_${config.formId}_form`,
-        description: `Submit the ${config.formId} form.`,
+        description: `Submit the ${config.formId} form. Always call validate_${config.formId}_form first to ensure the form is valid before submitting.`,
         inputSchema: {
             type: "object",
             properties: {},
             required: []
         },
-        validator: config.validationSchema,
         execute: async () => {
             const values = state.getValues()
 

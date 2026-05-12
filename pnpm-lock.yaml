@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       webmcp-adapter:
-        specifier: 0.0.4
-        version: 0.0.4(@mcp-b/global@2.3.1(zod@3.25.76))
+        specifier: 0.0.8
+        version: 0.0.8(@mcp-b/global@2.3.1(zod@3.25.76))
     devDependencies:
       typescript:
         specifier: ^6.0.2
@@ -674,8 +674,8 @@ packages:
   vscode-uri@3.1.0:
     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
 
-  webmcp-adapter@0.0.4:
-    resolution: {integrity: sha512-T0Wf80DV4Bol7eW5O22+wiak4hRayJNE6cUntKauEnYChM3cUBGiC46GZWuch6gytl8gPpRaKqtVWu0Dbz/Fcw==}
+  webmcp-adapter@0.0.8:
+    resolution: {integrity: sha512-cGzRhFVHrXoQNGsBS3LA+Ry93fSiB03bjLGGIeCB7ZGw9pYbzLa1c9l7ehWWZaB0NvIT27uQ674q4cB4q3QRsA==}
     peerDependencies:
       '@mcp-b/global': '>=2.0.0'
 
@@ -1248,7 +1248,7 @@ snapshots:
 
   vscode-uri@3.1.0: {}
 
-  webmcp-adapter@0.0.4(@mcp-b/global@2.3.1(zod@3.25.76)):
+  webmcp-adapter@0.0.8(@mcp-b/global@2.3.1(zod@3.25.76)):
     dependencies:
       '@mcp-b/global': 2.3.1(zod@3.25.76)
       '@mcp-b/webmcp-types': 2.3.1
