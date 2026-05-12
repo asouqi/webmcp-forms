@@ -241,8 +241,8 @@ export default function App() {
                 setValues((prev) => ({ ...prev, [field]: value }));
             },
             validationSchema: {
-                from: formSchema,
-                fillFiled: fillFieldSchema,
+                form: formSchema,
+                fillField: fillFieldSchema,
                 fillMultipleField: fillMultipleFieldSchema,
             },
             // selectedTools: new Set(['fill-field', 'clear-field']),
@@ -433,7 +433,7 @@ export default function App() {
                 <HelpTitle>🧪 WebMCP Inspector - Test Validation</HelpTitle>
 
                 <p style={{ fontSize: '13px', margin: '0 0 8px 0' }}>
-                    Tool name: <code>fill_registration_field</code>
+                    Tool name: <code>fill_test_field</code>
                 </p>
 
                 <ExampleLabel>✅ Valid: Name with correct length</ExampleLabel>

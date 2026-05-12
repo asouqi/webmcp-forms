@@ -27,7 +27,7 @@ export interface CreateFormToolsOptions {
     fields: Record<string, FormField>
     validationSchema?: {
         /** use by validateForm */
-        from?: any
+        form?: any
         /** use by validateField - validate { field: 'name', value: '...'} */
         fillFiled?: any
         /** used by fillMultipleField — validates { fields: { name, email, ... } } */

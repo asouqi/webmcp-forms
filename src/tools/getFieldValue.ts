@@ -25,7 +25,12 @@ export function createGetFieldValueTool(config: FormConfig, state: FormState) {
                         type: 'text',
                         text: `Unknown field: "${fieldName}"`
                     }],
-                    isError: true
+                    isError: true,
+                    structuredContent: {
+                        success: false,
+                        field: fieldName,
+                        value: null
+                    }
                 }
             }
 

@@ -27,7 +27,7 @@ export function createClearFieldTool(config: FormConfig, state: FormState) {
                     isError: true,
                     structuredContent: {
                         success: false,
-                        error: `Unknown field: ${fieldName}` as string,
+                        error: `Unknown field: ${fieldName}`,
                         field: fieldName,
                         value: null,
                         fieldType: null

@@ -12,6 +12,7 @@ export function createSubmitFormTool(config: FormConfig, state: FormState) {
         },
         execute: async () => {
             const values = state.getValues()
+            const submitted = !!state.submit
 
             if (state.submit) {
                 try {
@@ -37,10 +38,12 @@ export function createSubmitFormTool(config: FormConfig, state: FormState) {
             return {
                 content: [{
                     type: 'text',
-                    text: `Form "${config.formId}" submitted successfully!`
+                    text: submitted
+                        ? `Form "${config.formId}" submitted successfully!`
+                        : `Form "${config.formId}" has no submit handler registered.`
                 }],
                 structuredContent: {
-                    success: true,
+                    success: submitted,
                     formId: config.formId,
                     values,
                     error: null
