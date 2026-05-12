@@ -78,7 +78,7 @@ function createFormTools(options: CreateFormToolsOptions): ToolDefinition[]
 | `onChange` | `(field: string, value: JsonValue) => void` | Yes | Callback invoked when the AI sets a field value |
 | `onSubmit` | `() => void \| Promise<void>` | No | Called when the AI invokes the submit tool |
 | `onReset` | `() => void` | No | Called when the AI invokes the reset tool |
-| `validationSchema` | `StandardSchema` | No | Any [Standard Schema](https://github.com/standard-schema/standard-schema)-compatible schema (Zod, Valibot, ArkType). When provided, replaces the built-in per-field JSON Schema validation in `validate-form`, and is passed as `validator` to `fill-field` and `fill-multiple-field` tools |
+| `validationSchema` | `{ form?: StandardSchema, fillField?: StandardSchema, fillMultipleField?: StandardSchema }` | No | Per-tool Standard Schema validators (Zod, Valibot, ArkType). Each key targets a specific tool — `form` for `validate-form`, `fillField` for `fill-field`, `fillMultipleField` for `fill-multiple-field`. When a key is provided it replaces the built-in JSON Schema validation for that tool |
 | `selectedTools` | `Set<FormTools>` | No | Specific tools to include. Defaults to all tools |
 | `customTools` | `ToolDefinition[]` | No | Additional custom tools to register alongside the built-in form tools |
 
@@ -263,12 +263,24 @@ import { z } from 'zod'
 import { createFormTools } from 'webmcp-forms'
 import { useTools } from 'webmcp-adapter-react'
 
-const schema = z.object({
+const fieldsDefinitions = {
     name: z.string().min(2, 'Full Name must be at least 2 characters'),
     email: z.string().email('Must be a valid email address'),
     age: z.number().min(18, 'Must be at least 18').max(120),
     subscribe: z.boolean().optional(),
-})
+}
+
+// Used by validate-form — validates the flat values object
+const formSchema = z.object(fieldsDefinitions)
+
+// Used by fill-field — validates { field: 'name', value: '...' }
+const fieldSpecificSchemas = Object.entries(fieldsDefinitions).map(([key, schema]) =>
+    z.object({ field: z.literal(key), value: schema })
+) as [ReturnType<typeof z.object>, ...ReturnType<typeof z.object>[]]
+const fillFieldSchema = z.union(fieldSpecificSchemas)
+
+// Used by fill-multiple-field — validates { fields: { name?, email?, ... } }
+const fillMultipleFieldSchema = z.object({ fields: formSchema.partial() })
 
 useTools({
     tools: createFormTools({
@@ -276,7 +288,11 @@ useTools({
         fields,
         getValues: () => values,
         onChange: (field, value) => setValues(prev => ({ ...prev, [field]: value })),
-        validationSchema: schema   // ← replaces built-in validation
+        validationSchema: {
+            form: formSchema,               // ← validate-form
+            fillField: fillFieldSchema,     // ← fill-field
+            fillMultipleField: fillMultipleFieldSchema  // ← fill-multiple-field
+        }
     }),
     deps: [values]
 })
@@ -411,7 +427,11 @@ interface CreateFormToolsOptions {
     onChange: (field: string, value: JsonValue) => void
     onSubmit?: () => void | Promise<void>
     onReset?: () => void
-    validationSchema?: StandardSchema
+    validationSchema?: {
+        form?: StandardSchema           // validate-form tool
+        fillField?: StandardSchema      // fill-field tool
+        fillMultipleField?: StandardSchema  // fill-multiple-field tool
+    }
     selectedTools?: Set<FormTools>
     customTools?: ToolDefinition[]
 }

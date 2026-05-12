@@ -29,7 +29,7 @@ export interface CreateFormToolsOptions {
         /** use by validateForm */
         form?: any
         /** use by validateField - validate { field: 'name', value: '...'} */
-        fillFiled?: any
+        fillField?: any
         /** used by fillMultipleField — validates { fields: { name, email, ... } } */
         fillMultipleField?: any
     }
