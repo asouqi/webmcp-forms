@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { createFormTools, FormField } from "webmcp-forms";
 import {defineTool} from "webmcp-adapter";
 import {useTools} from "webmcp-adapter-react";
-import {CodeBlock, ExampleLabel, HelpTitle, InspectorHelp} from "./styled";
+import { CodeBlock, ExampleLabel, HelpTitle, InspectorHelp } from "./styled";
+import * as z from "zod"
 
 const Container = styled.div`
   max-width: 600px;
@@ -168,7 +169,35 @@ const fields: Record<string, FormField> = {
             zip: '',
         }
     },
-};
+}
+
+const fieldsDefinitions = {
+    name: z.string().min(2).max(50),
+    email: z.string().regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
+    age: z.number().min(18).max(120),
+    subscribe: z.boolean().optional(),
+    country: z.enum(['US', 'UK', 'CA', 'DE', 'FR']),
+    interests: z.array(z.string()).min(1).max(5).optional(),
+    bio: z.string().max(200).optional(),
+    salary: z.number().min(0).optional(),
+    address: z.object({ street: z.string(), city: z.string(), zip: z.string() }).optional(),
+}
+
+export const formSchema = z.object(fieldsDefinitions)
+
+
+const fieldSpecificSchemas = Object.entries(fieldsDefinitions).map(([key, schema]) =>
+    z.object({ field: z.literal(key), value: schema })
+)
+export const fillFieldSchema = z.union([
+    fieldSpecificSchemas[0],
+    fieldSpecificSchemas[1],
+    ...fieldSpecificSchemas.slice(2)
+])
+
+export const fillMultipleFieldSchema = z.object({
+    fields: formSchema.partial()
+})
 
 // Initial form state
 const initialState = {
@@ -211,7 +240,12 @@ export default function App() {
             onChange: (field, value) => {
                 setValues((prev) => ({ ...prev, [field]: value }));
             },
-            selectedTools: new Set(['fill-field', 'clear-field']),
+            validationSchema: {
+                from: formSchema,
+                fillFiled: fillFieldSchema,
+                fillMultipleField: fillMultipleFieldSchema,
+            },
+            // selectedTools: new Set(['fill-field', 'clear-field']),
             customTools: [autoFillTool]
         }),
         deps: []

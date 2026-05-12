@@ -18,8 +18,10 @@ export function createValidateFormTool(config: FormConfig, state: FormState) {
             let errors: {} | { _form: string }
             let validFields: string[]
 
-            if (config.validationSchema && isStandardSchema(config.validationSchema)) {
-                const result = await validateWithStandardSchema(config.validationSchema, values)
+            const formSchema = config.validationSchema?.form
+
+            if (formSchema && isStandardSchema(formSchema)) {
+                const result = await validateWithStandardSchema(formSchema, values)
                 isValid = result.valid
                 errors = result.errors ?? {}
                 validFields = isValid

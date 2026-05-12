@@ -32,7 +32,14 @@ export interface FormField<T extends FieldType = FieldType> {
 export interface FormConfig<TFields extends Record<string, FormField> = Record<string, FormField>> {
     formId: string
     fields: TFields
-    validationSchema?: any
+    validationSchema?: {
+        /** use by validateForm — validates flat { name, email, ... } */
+        form?: any
+        /** use by validateField - validate { field: 'name', value: '...'} */
+        fillField?: any
+        /** used by fillMultipleField — validates { fields: { name, email, ... } } */
+        fillMultipleField?: any
+    }
 }
 
 export interface FormState<TValues extends Record<string, JsonValue> = Record<string, JsonValue>> {

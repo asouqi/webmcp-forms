@@ -1,4 +1,4 @@
-import {JsonValue, StandardSchema, ToolDefinition} from "webmcp-adapter"
+import {JsonValue, ToolDefinition} from "webmcp-adapter"
 import type { FormField, FormConfig, FormState, FormTools } from './types'
 import {
     createFillFieldTool,
@@ -25,7 +25,14 @@ const TOOL_CREATORS: Record<FormTools, (config: FormConfig, state: FormState) =>
 export interface CreateFormToolsOptions {
     formId: string
     fields: Record<string, FormField>
-    validationSchema?: StandardSchema
+    validationSchema?: {
+        /** use by validateForm */
+        from?: any
+        /** use by validateField - validate { field: 'name', value: '...'} */
+        fillFiled?: any
+        /** used by fillMultipleField — validates { fields: { name, email, ... } } */
+        fillMultipleField?: any
+    }
     getValues: () => Record<string, JsonValue>
     onChange: (field: string, value: JsonValue) => void
     onSubmit?: () => void | Promise<void>
