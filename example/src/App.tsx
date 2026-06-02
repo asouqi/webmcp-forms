@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import { createFormTools, FormField } from "webmcp-forms";
 import {defineTool} from "webmcp-adapter";
@@ -218,6 +218,11 @@ const initialState = {
 
 export default function App() {
     const [values, setValues] = useState(initialState);
+    const valuesRef = useRef(values)
+
+    useEffect(() => {
+        valuesRef.current = values
+    }, [values])
 
     const autoFillTool = defineTool({
         name: 'autofill_contact',
@@ -236,7 +241,7 @@ export default function App() {
         tools: createFormTools({
             formId: 'test',
             fields,
-            getValues: () => values,
+            getValues: () => valuesRef.current,
             onChange: (field, value) => {
                 setValues((prev) => ({ ...prev, [field]: value }));
             },

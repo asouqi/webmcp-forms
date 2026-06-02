@@ -1,6 +1,6 @@
 {
   "name": "webmcp-forms",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "AI-powered form tools for WebMCP. Enables AI assistants to fill, validate, clear, and submit web forms through the Model Context Protocol.",
   "type": "module",
   "main": "./dist/index.js",
@@ -22,7 +22,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "webmcp-adapter": "0.0.9"
+    "webmcp-adapter": "0.0.11"
   },
   "devDependencies": {
     "typescript": "^6.0.2",
