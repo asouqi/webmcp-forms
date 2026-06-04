@@ -7,15 +7,20 @@
     "dev": "vite --force",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "pnpm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "bootstrap": "^5.3.8",
     "react": "^19.2.4",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.4",
     "styled-components": "^6.4.0",
     "webmcp-adapter": "0.0.4",
     "webmcp-adapter-react": "0.0.2",
     "webmcp-forms": "0.0.6",
+    "@mcp-b/webmcp-types": "^3.0.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -27,6 +32,7 @@
     "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
+    "gh-pages": "^6.3.0",
     "globals": "^17.4.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.0",

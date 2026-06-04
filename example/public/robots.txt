@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asouqi.github.io/webmcp-forms/sitemap.xml
