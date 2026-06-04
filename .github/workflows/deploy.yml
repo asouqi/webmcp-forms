@@ -33,15 +33,31 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.22.0
-          run_install: |
-            - recursive: false
-              cwd: example
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: |
+          cd example
+          pnpm install --frozen-lockfile
 
       - name: Build
         run: |
+          cd example
           pnpm run build
-        working-directory: example
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
