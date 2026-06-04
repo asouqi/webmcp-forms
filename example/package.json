@@ -17,9 +17,9 @@
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.4",
     "styled-components": "^6.4.0",
-    "webmcp-adapter": "0.0.4",
-    "webmcp-adapter-react": "0.0.2",
-    "webmcp-forms": "0.0.6",
+    "webmcp-adapter": "0.0.11",
+    "webmcp-adapter-react": "0.0.3",
+    "webmcp-forms": "0.0.10",
     "@mcp-b/webmcp-types": "^3.0.0",
     "zod": "^4.4.3"
   },

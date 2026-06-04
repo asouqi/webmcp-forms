@@ -141,9 +141,8 @@ export default function FormExample() {
             setSubmitMessage('Form submitted successfully!')
             console.log('Form submitted:', values)
             setTimeout(() => setSubmitMessage(''), 3000)
-        } catch (error: any) {
+        } catch (error) {
             setSubmitMessage('Validation failed. Please check the form.')
-            console.error('Validation errors:', error.errors)
             setTimeout(() => setSubmitMessage(''), 5000)
         }
     }

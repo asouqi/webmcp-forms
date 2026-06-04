@@ -18,6 +18,7 @@ export default function App() {
                         style={{ cursor: 'pointer' }}
                     >
                         <img
+                            // @ts-ignore
                             src={`${import.meta.env.BASE_URL}logo.svg`}
                             alt="webmcp-forms"
                             height="45"
