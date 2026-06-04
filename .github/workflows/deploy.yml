@@ -33,7 +33,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 10
           # Automatically runs pnpm install in the correct subfolder with frozen-lockfile
           run_install: |
             - recursive: false
