@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "homepage": "https://asouqi.github.io/webmcp-forms",
+  "packageManager": "pnpm@10.0.0",
   "scripts": {
     "dev": "vite --force",
     "build": "tsc -b && vite build",
